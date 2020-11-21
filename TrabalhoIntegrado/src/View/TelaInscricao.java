@@ -25,11 +25,10 @@ public class TelaInscricao {
 							 + "\nDigite o que deseja"
 							 + "\n1 - Adicionar aluno no início"
 							 + "\n2 - Adicionar aluno no final"
-							 + "\n3 - Adicionar aluno numa posição específica"
+							 + "\n3 - Ordenar a lista"
 							 + "\n4 - Remover aluno do início"
 							 + "\n5 - Remover aluno do final"
-							 + "\n6 - Remover aluno de uma posição específica"
-							 + "\n7 - Percorrer a lista"
+							 + "\n6 - Percorre a lista"
 							 + "\n9 - Terminar aplicação"
 							 + "\nOpção escolhida: ");
 			op = sc.nextInt();
@@ -68,15 +67,14 @@ public class TelaInscricao {
 				acao.AdicionaFinal(new Inscricao(RG, nome, CPF, diploma, comprovanteResidencia, historico));
 				break;
 			case 3:
-				acao.clonalista();
-				acao.mergeSortRecursivo(, ini, fim);
+				acao.ordenarALista();
 			case 4:
-				System.out.println("Temperatura removida foi: " + acao.RemoveInicio());
+				System.out.println("Aluno(a) removido(a) foi: " + acao.RemoveInicio());
 				break;
 			case 5:
-				System.out.println("Temperatura removida foi: " + acao.RemoveFinal());
+				System.out.println("Aluno(a) removido(a) foi: " + acao.RemoveFinal());
 				break;
-			case 7:
+			case 6:
 				System.out.println(acao.PercorreLista());
 				break;
 			case 9:

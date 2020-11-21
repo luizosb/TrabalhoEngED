@@ -7,9 +7,11 @@ public class ListaEncadeada {
 	private NO inicio;
 	private Inscricao vet[];
 	private static int fim = 0;
+	private static int tamanho = 0;
 
 	public ListaEncadeada() {
 		this.inicio = null;
+		vet = new Inscricao[tamanho];
 	}
 	
 	//ORDENAÇÃO DA LISTA
@@ -20,7 +22,6 @@ public class ListaEncadeada {
             mergeSortRecursivo(vet2, ini, meio);
             mergeSortRecursivo(vet2, meio + 1, fim);
             mesclar(vet2, ini, meio, meio + 1, fim);
-            
         }
     }
 	
@@ -31,7 +32,7 @@ public class ListaEncadeada {
         int iaux = iniA;
         Inscricao aux[] = new Inscricao[vet.length];
         while (i1 <= fimA && i2 <= fimB) {
-            if (vet[i1] <= vet[i2]) {
+            if (vet[i1].getNome().compareTo(vet[i2].getNome()) < 0) {
                 aux[iaux++] = vet[i1++];
             } else {
                 aux[iaux++] = vet[i2++];
@@ -62,6 +63,7 @@ public class ListaEncadeada {
 		n.setInscricao(inscricao);
 		n.setProx(inicio);
 		inicio = n;
+		tamanho++;
 	}
 
 	public void AdicionaFinal(Inscricao inscricao) {
@@ -75,6 +77,7 @@ public class ListaEncadeada {
 			aux = RECADFIM(aux);
 			aux.setProx(n);
 		}
+		tamanho++;
 	}
 
 	static private NO RECADFIM(NO aux) {
@@ -93,6 +96,7 @@ public class ListaEncadeada {
 			NO aux = inicio;
 			Inscricao aluno = aux.getInscricao();
 			inicio = aux.getProx();
+			tamanho--;
 			return aluno;
 		}
 	}
@@ -103,11 +107,13 @@ public class ListaEncadeada {
 		if (inicio.getProx() == null) {
 			aluno = aux.getInscricao();
 			inicio = null;
+			tamanho--;
 			return aluno;
 		} else {
 			aux = RECREM(inicio, inicio);
 			aluno = aux.getProx().getInscricao();
 			aux.setProx(null);
+			tamanho--;
 			return aluno;
 		}
 	}
@@ -137,9 +143,9 @@ public class ListaEncadeada {
 	}
 
 	public void clonalista() {
-        for (NO n = inicio; n != null; n = n.getProx()) {
-            fim++;
+        for (NO n = inicio; n!= null; n = n.getProx()) {
             vet[fim]=n.getInscricao();
+            fim++;
         }
     }
 	
@@ -147,5 +153,4 @@ public class ListaEncadeada {
 		clonalista();
 		mergeSortRecursivo(vet, 0, fim);
 	}
-
 }

@@ -2,10 +2,8 @@ package Classes;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.util.Scanner;
 
 public class Inscricao {
-	Scanner sc = new Scanner(System.in);
 
 	String RG;
 	String nome;

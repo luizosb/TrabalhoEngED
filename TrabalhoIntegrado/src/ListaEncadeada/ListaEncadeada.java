@@ -6,56 +6,12 @@ import Classes.NO;
 public class ListaEncadeada {
 	private NO inicio;
 	private Inscricao vet[];
-	private static int fim = 0;
-	private static int tamanho = 0;
+	private static int tamanho;
 
 	public ListaEncadeada() {
 		this.inicio = null;
-		vet = new Inscricao[tamanho];
-	}
-	
-	//ORDENA플O DA LISTA
-	public static void mergeSortRecursivo(Inscricao[] vet2, int ini, int fim) {
-		ini = 0;
-        if (ini < fim) {
-            int meio = (ini + fim) / 2;
-            mergeSortRecursivo(vet2, ini, meio);
-            mergeSortRecursivo(vet2, meio + 1, fim);
-            mesclar(vet2, ini, meio, meio + 1, fim);
-        }
-    }
-	
+		tamanho = 0;
 
-    public static void mesclar(Inscricao vet[], int iniA, int fimA, int iniB, int fimB) {
-        int i1 = iniA;
-        int i2 = iniB;
-        int iaux = iniA;
-        Inscricao aux[] = new Inscricao[vet.length];
-        while (i1 <= fimA && i2 <= fimB) {
-            if (vet[i1].getNome().compareTo(vet[i2].getNome()) < 0) {
-                aux[iaux++] = vet[i1++];
-            } else {
-                aux[iaux++] = vet[i2++];
-            }
-        }
-        while (i1<=fimA) {
-            aux[iaux++]=vet[i1++];
-        }
-        while (i2<=fimB) {
-            aux[iaux++]=vet[i2++];
-        }
-        for(int i=iniA;i<=fimB;i++) {
-             vet[i]=aux[i];
-        }
-    }
-    //FIM DA ORDENA플O
-    
-	public boolean vazia() {
-		if (this.inicio == null) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	public void AdicionaInicio(Inscricao inscricao) {
@@ -88,9 +44,65 @@ public class ListaEncadeada {
 		}
 	}
 
+	public void clonalista() {
+		int a = 0;
+		for (NO n = inicio; n != null; n = n.getProx()) {
+			vet[a] = n.getInscricao();
+			a++;
+		}
+	}
+
+	public void ordenarALista() {
+		vet = new Inscricao[tamanho];
+		clonalista();
+		mergeSortRecursivo(vet, 0, (tamanho - 1));
+		reescrevelista();
+	}
+	
+	// ORDENA플O DA LISTA
+	public static void mergeSortRecursivo(Inscricao[] vet, int ini, int fim) {
+		if (ini < fim) {
+			int meio = (ini + fim) / 2;
+			mergeSortRecursivo(vet, ini, meio);
+			mergeSortRecursivo(vet, meio + 1, fim);
+			mesclar(vet, ini, meio, meio + 1, fim);
+		}
+	}
+
+	public static void mesclar(Inscricao vet[], int iniA, int fimA, int iniB, int fimB) {
+		int i1 = iniA;
+		int i2 = iniB;
+		int iaux = iniA;
+		Inscricao aux[] = new Inscricao[vet.length];
+		while (i1 <= fimA && i2 <= fimB) {
+			if (vet[i1].getNome().compareToIgnoreCase(vet[i2].getNome()) < 0) {
+				aux[iaux++] = vet[i1++];
+			} else {
+				aux[iaux++] = vet[i2++];
+			}
+		}
+		while (i1 <= fimA) {
+			aux[iaux++] = vet[i1++];
+		}
+		while (i2 <= fimB) {
+			aux[iaux++] = vet[i2++];
+		}
+		for (int i = iniA; i <= fimB; i++) {
+			vet[i] = aux[i];
+		}
+	}
+	// FIM DA ORDENA플O
+
+	public void reescrevelista() {
+		int a = 0;
+		for (NO n = inicio; n != null; n = n.getProx()) {
+			n.setInscricao(vet[a]);
+			a++;
+		}
+	}
+
 	public Inscricao RemoveInicio() {
 		if (inicio == null) {
-			System.out.println("lista vazia");
 			return null;
 		} else {
 			NO aux = inicio;
@@ -104,7 +116,9 @@ public class ListaEncadeada {
 	public Inscricao RemoveFinal() {
 		NO aux = inicio;
 		Inscricao aluno;
-		if (inicio.getProx() == null) {
+		if (inicio == null) {
+			return null;
+		} else if (inicio.getProx() == null) {
 			aluno = aux.getInscricao();
 			inicio = null;
 			tamanho--;
@@ -142,15 +156,4 @@ public class ListaEncadeada {
 		}
 	}
 
-	public void clonalista() {
-        for (NO n = inicio; n!= null; n = n.getProx()) {
-            vet[fim]=n.getInscricao();
-            fim++;
-        }
-    }
-	
-	public void ordenarALista() {
-		clonalista();
-		mergeSortRecursivo(vet, 0, fim);
-	}
 }
